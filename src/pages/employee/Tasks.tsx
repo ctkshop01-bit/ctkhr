@@ -5,6 +5,7 @@ import Badge from "@/components/ui/Badge";
 import { useAuthStore } from "@/stores/authStore";
 import { useDbStore } from "@/stores/dbStore";
 import { useT } from "@/i18n/useT";
+import { buildLatestReviewByTaskId } from "./taskReviewLogs";
 
 const taskStatusOrder: Record<string, number> = {
   returned: 0,
@@ -24,12 +25,7 @@ export default function EmployeeTasks() {
     if (orderDelta !== 0) return orderDelta;
     return a.createdAtISO < b.createdAtISO ? 1 : -1;
   });
-  const latestReviewByTaskId = new Map(
-    (db.taskReviewLogs ?? [])
-      .filter(log => log.action === "confirm" || log.action === "return")
-      .sort((a, b) => (a.createdAtISO < b.createdAtISO ? 1 : -1))
-      .map(log => [log.taskId, log] as const),
-  );
+  const latestReviewByTaskId = buildLatestReviewByTaskId(db.taskReviewLogs ?? []);
 
   const getStatusTone = (status: string) => {
     if (status === "confirmed" || status === "closed") return "good" as const;

@@ -78,3 +78,85 @@ test("task submit and review commands append task review logs", async () => {
     await server.close();
   }
 });
+
+test("task confirm clears stale return reason after resubmission", async () => {
+  const root = await mkdtemp(join(tmpdir(), "hr-task-review-confirm-"));
+  const server = createHrServer({ dataFilePath: join(root, "app-db.json") });
+  const db = createSeedDb();
+
+  db.tasks = [
+    {
+      id: "tsk_confirm_1",
+      title: "same day task",
+      status: "open",
+      taskType: "same_day",
+      includeInPerformance: true,
+      createdAtISO: "2026-07-15T08:00:00.000Z",
+    },
+  ];
+
+  await server.listen(0);
+  const port = (server.address() as { port: number }).port;
+
+  try {
+    const importRes = await fetch(`http://127.0.0.1:${port}/api/bootstrap/import-local`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ db }),
+    });
+    assert.equal(importRes.status, 200);
+
+    for (const command of [
+      {
+        type: "submitTaskCompletion",
+        payload: {
+          taskId: "tsk_confirm_1",
+          userId: "usr_e001",
+          submittedAtISO: "2026-07-15T16:00:00.000Z",
+        },
+      },
+      {
+        type: "reviewTaskCompletion",
+        payload: {
+          taskId: "tsk_confirm_1",
+          reviewerId: "usr_admin",
+          action: "return",
+          reason: "missing photos",
+        },
+      },
+      {
+        type: "submitTaskCompletion",
+        payload: {
+          taskId: "tsk_confirm_1",
+          userId: "usr_e001",
+          submittedAtISO: "2026-07-15T16:05:00.000Z",
+        },
+      },
+      {
+        type: "reviewTaskCompletion",
+        payload: {
+          taskId: "tsk_confirm_1",
+          reviewerId: "usr_admin",
+          action: "confirm",
+        },
+      },
+    ]) {
+      const res = await fetch(`http://127.0.0.1:${port}/api/db/command`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(command),
+      });
+      assert.equal(res.status, 200);
+    }
+
+    const snapshotRes = await fetch(`http://127.0.0.1:${port}/api/db/snapshot`);
+    assert.equal(snapshotRes.status, 200);
+    const snapshotJson = await snapshotRes.json();
+    const task = snapshotJson.db.tasks.find((item: { id: string }) => item.id === "tsk_confirm_1");
+
+    assert.equal(task.status, "confirmed");
+    assert.equal(task.lastReturnReason, undefined);
+  } finally {
+    await server.close();
+  }
+});

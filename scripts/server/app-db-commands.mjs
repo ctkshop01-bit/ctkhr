@@ -1101,6 +1101,8 @@ export async function applySharedCommand(db, command) {
         task.status = "confirmed";
         task.confirmedByUserId = reviewerId;
         task.confirmedAtISO = nowISO();
+        task.lastReturnReason = undefined;
+        task.lastReturnedAtISO = undefined;
       } else {
         task.status = "returned";
         task.returnCount = (task.returnCount ?? 0) + 1;
