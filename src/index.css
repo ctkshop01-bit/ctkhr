@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: 12 12 12;
+  --panel: 16 16 16;
+  --text: 244 244 245;
+  --muted: 161 161 170;
+  --stroke: 39 39 42;
+  --accent: 16 185 129;
+  --theme-bg-image: url("https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=high%20quality%202d%20cartoon%20illustration%2C%20employees%20commuting%20to%20office%20in%20the%20morning%2C%20walking%20with%20briefcases%2C%20city%20skyline%2C%20soft%20gradients%2C%20clean%20lines%2C%20modern%20flat%20design%2C%20vibrant%20blue%20and%20teal%20palette%2C%20no%20text%2C%20no%20watermark%2C%20wide%20composition%2C%2016%3A9&image_size=landscape_16_9");
+
+  font-family: "HarmonyOS Sans SC", "MiSans", "Microsoft YaHei UI", "PingFang SC", "Noto Sans SC", system-ui, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  color: rgb(var(--text));
+  background: rgb(var(--bg));
+  position: relative;
+  isolation: isolate;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background-image: var(--theme-bg-image);
+  background-size: cover;
+  background-position: 50% 50%;
+  transform: scale(1.06);
+  opacity: 0.22;
+  filter: saturate(1.15) brightness(0.9);
+  animation: theme-bg-float 36s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(1200px 500px at 12% -10%, rgba(16, 185, 129, 0.18), transparent 55%),
+    radial-gradient(900px 520px at 92% 0%, rgba(59, 130, 246, 0.16), transparent 55%),
+    radial-gradient(1000px 700px at 50% 120%, rgba(244, 63, 94, 0.10), transparent 60%);
+  pointer-events: none;
+}
+
+.light body::before {
+  opacity: 0.32;
+  filter: saturate(1.05) brightness(1.02);
+}
+
+.light body::after {
+  opacity: 0.9;
+}
+
+.dark body::before {
+  opacity: 0.22;
+  filter: saturate(1.2) brightness(0.88);
+}
+
+.dark body::after {
+  opacity: 1;
+}
+
+@keyframes theme-bg-float {
+  0% {
+    transform: scale(1.06) translate3d(-1.5%, -1%, 0);
+    background-position: 46% 48%;
+  }
+  100% {
+    transform: scale(1.1) translate3d(1.5%, 1%, 0);
+    background-position: 54% 52%;
+  }
+}
+
+* {
+  scrollbar-color: rgba(244, 244, 245, 0.15) rgba(0, 0, 0, 0);
+  scrollbar-width: thin;
+}

@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2020", "DOM"],
+    "strict": false,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "outDir": "./.tmp-tests"
+  },
+  "include": [
+    "tests/**/*.ts",
+    "src/data/adminAccount.ts",
+    "src/data/seedDb.ts",
+    "src/pages/employee/clockPunchState.ts",
+    "src/components/common/photoUpload.ts",
+    "src/stores/payrollPolicy.ts",
+    "src/stores/persistClockEvents.ts",
+    "src/types/domain.ts",
+    "src/utils/core.ts",
+    "src/pwa/pwaConfig.ts",
+    "scripts/**/*.mjs"
+  ]
+}

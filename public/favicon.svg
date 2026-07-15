@@ -1,0 +1,29 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <title>CTKHR app icon</title>
+  <defs>
+    <linearGradient id="bgC" x1="4.27" y1="3.78" x2="27.73" y2="29.02" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#09142A"/>
+      <stop offset="0.5" stop-color="#214EAA"/>
+      <stop offset="1" stop-color="#DDEFFF"/>
+    </linearGradient>
+    <linearGradient id="textC" x1="8.53" y1="11.2" x2="23.47" y2="23.29" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#EDF7FF"/>
+    </linearGradient>
+  </defs>
+  <rect x="1" y="1" width="30" height="30" rx="7.125" fill="url(#bgC)"/>
+  <rect x="1.375" y="1.375" width="29.25" height="29.25" rx="6.75" fill="none" stroke="#E7F2FF" stroke-opacity="0.18" stroke-width="0.75"/>
+  <path d="M23.5 1L31 8.5" stroke="#EAF4FF" stroke-opacity="0.82" stroke-width="0.75" stroke-linecap="round"/>
+  <text
+    x="16"
+    y="18.7"
+    text-anchor="middle"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="6.4"
+    font-weight="900"
+    letter-spacing="-0.4"
+    fill="url(#textC)"
+  >
+    CTKHR
+  </text>
+</svg>
